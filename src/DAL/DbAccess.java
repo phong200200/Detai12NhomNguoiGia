@@ -29,7 +29,7 @@ public class DbAccess {
     }
     
     public int RegisterAccount(String userId, String userName, String password, String classId){
-        String passwordEncrypted = Crypto.Encryption(password);
+        String passwordEncrypted = Crypto.Encryption(password, userId);
         String input = INSERT_INTO + " Account " + VALUE + "('"+ userId +"','"+ userName +"','"+ passwordEncrypted +"',"+ classId+")";
         try {
             int i = statement.executeUpdate(input);

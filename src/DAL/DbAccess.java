@@ -28,7 +28,7 @@ public class DbAccess {
         }
     }
     
-    public int RegisterAccount(String userId, String userName, String password, String classId){
+    public int RegisterAccount(String userId, String userName, String password, String classId) throws Exception{
         String passwordEncrypted = Crypto.Encryption(password, userId);
         String input = INSERT_INTO + " Account " + VALUE + "('"+ userId +"','"+ userName +"','"+ passwordEncrypted +"',"+ classId+")";
         try {

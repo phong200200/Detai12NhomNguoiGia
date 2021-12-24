@@ -14,8 +14,10 @@ public class MainServer {
     /**
      * @param args the command line arguments
      */
+    public static final int PORT = 1221;
+
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("PORT là: " + PORT);
     }
-    
 }

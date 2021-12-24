@@ -29,6 +29,8 @@ public class MainServer {
     /**
      * @param args the command line arguments
      */
+    public static final int PORT = 1221;
+
     public static void main(String[] args) {
         String id = "1811063475";
         DbAccess dbAccess = new DbAccess();
@@ -123,6 +125,7 @@ public class MainServer {
         } catch (IOException ex) {
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+        System.out.println("PORT là: " + PORT);
     }
-
 }

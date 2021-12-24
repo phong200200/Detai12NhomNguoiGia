@@ -22,7 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Crypto {
 
-    public static String Encryption(String password, String key) 
+    public static String Encryption(String raw, String key) 
             throws NoSuchAlgorithmException, 
             NoSuchPaddingException, 
             InvalidKeyException, 
@@ -31,16 +31,16 @@ public class Crypto {
         SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "DES");
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] byteEncrypted = cipher.doFinal(password.getBytes());
+        byte[] byteEncrypted = cipher.doFinal(raw.getBytes());
         String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
         return encrypted;
     }
 
-    public static String Decryption(String passwordEncrypted, String key) throws Exception {
+    public static String Decryption(String encrypted, String key) throws Exception {
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING");
         SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "DES");
         cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] byteEncrypted = BASE64DecoderStream.decode(passwordEncrypted.getBytes());
+        byte[] byteEncrypted = BASE64DecoderStream.decode(encrypted.getBytes());
 
         byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
         String decrypted = new String(byteDecrypted);

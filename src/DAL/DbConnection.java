@@ -18,7 +18,7 @@ public class DbConnection {
     public Connection GetConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url = "jdbc:sqlserver://localhost:1433;Database=DoAnLTM";
+            String url = "jdbc:sqlserver://localhost:1433;Database=DoAnLTM;user=phong;password=1231";
             Connection con = DriverManager.getConnection(url);
             return con;
         } catch (Exception e) {

@@ -22,7 +22,12 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Crypto {
 
-    public static String Encryption(String password, String key) throws Exception {
+    public static String Encryption(String password, String key) 
+            throws NoSuchAlgorithmException, 
+            NoSuchPaddingException, 
+            InvalidKeyException, 
+            IllegalBlockSizeException, 
+            BadPaddingException {
         SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "DES");
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING");
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec);

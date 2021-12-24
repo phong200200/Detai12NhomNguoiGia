@@ -22,8 +22,11 @@ public class Test {
         try {
             // TODO code application logic here
             String key = "1811063475";
+
             String hello = "2.24";
+
             System.out.println("key: " + key.substring(2) );
+            System.out.println("Input: " + hello);
             encrypted = Crypto.Encryption(hello, key.substring(2));
             System.out.println("Encrypted: " + encrypted);
             //Todo: Validate lúc nhập 8 số, bm sẽ cắt nó ra cho :))

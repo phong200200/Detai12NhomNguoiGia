@@ -22,7 +22,7 @@ public class Test {
         try {
             // TODO code application logic here
             String key = "1811063475";
-            String hello = "helloWtf is this shit?";
+            String hello = "2.24";
             System.out.println("key: " + key.substring(2) );
             encrypted = Crypto.Encryption(hello, key.substring(2));
             System.out.println("Encrypted: " + encrypted);

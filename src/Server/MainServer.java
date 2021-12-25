@@ -14,11 +14,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Cursor;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 
 /**
@@ -60,6 +65,16 @@ public class MainServer {
 
                 DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
                 String infor = Receive(repacketInfor, server);
+                Student student = new Student();
+                student = MakeStudent(infor);
+                System.out.println("SV: "+ student.getStudentId());
+                DbAccess dbaccess = new DbAccess(url);
+                int result = dbaccess.SetMark(student);
+                if(result == -1){
+                    Send("Failed!", repacketInfor);
+                }else{
+                    Send("Sucess", repacketInfor);
+                }
             }
         } catch (Exception ex) {
 //            ms.Send("Failed",re);
@@ -111,6 +126,21 @@ public class MainServer {
             System.out.println("Sent: " + gui);
         } catch (Exception e) {
 
+        }
+    }
+
+    private Student MakeStudent(String infor) {
+        try {
+            String[] hs = new String[6];
+            hs = infor.split("/");
+     
+            String Key = hs[1].substring(2);
+            
+            Student st = new Student(hs[1],hs[0],hs[2],hs[3],hs[4]);
+            return st;
+        } catch (Exception ex) {
+            Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

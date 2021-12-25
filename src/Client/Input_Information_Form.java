@@ -4,6 +4,12 @@
  */
 package Client;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import javax.swing.JOptionPane;
+import Client.ValidateData;
+
 /**
  *
  * @author laihu
@@ -37,7 +43,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
         Literaturepoint_txt = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         Englishpoint_txt = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        Send_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,7 +107,12 @@ public class Input_Information_Form extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Gửi");
+        Send_btn.setText("Gửi");
+        Send_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Send_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,7 +133,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(Send_btn)
                 .addGap(165, 165, 165))
         );
         layout.setVerticalGroup(
@@ -139,12 +150,81 @@ public class Input_Information_Form extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(Send_btn)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Send_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Send_btnActionPerformed
+        // TODO add your handling code here:
+        //Gửi dữ liệu gồm TÊN, MSSV, ĐIỂM
+        //Bước 1: Mã Hóa dữ liệu bằng hàm của thằng Phòng
+        //Bước 2: Tạo DatagramSocket
+        //Bước 3: Tạo biến chuỗi để chứa tất cả dữ liệu cần gửi
+        //Bước 4: Tạo DatagramPacket để chứa thông tin gửi (Chuỗi, độ dài chuỗi, ipserver,port)
+        //Bước 5: Gửi
+        //Bước 6: Nhận respone từ server
+
+        /*Code mẫu
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            String diachi = this.txtdiachi.getText();
+            InetAddress ipServer = InetAddress.getByName(diachi);
+            int port = 1234;
+            String Send = this.txtchuoi.getText();  //>>/// Thằng này chứa thông tin gửi
+            sendData = Send.getBytes();
+
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
+            socket.send(sendPacket);
+
+            byte[] buffer = new byte[65507];
+            DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+            socket.receive(receivePacket);
+            txtketqua.setText(new String(receivePacket.getData()).trim());
+            socket.close();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.toString());
+        }
+         */
+        byte[] sendData;
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            String diachi = Input_Address_To_UDP_Server.IPAddress;
+            InetAddress ipServer = InetAddress.getByName(diachi);
+            int port = Input_Address_To_UDP_Server.PORT;
+
+            //Validate trước
+            if (Name_txt.getText().isEmpty() || MSSV_txt.getText().isEmpty() || Mathpoint_txt.getText().isEmpty() || Literaturepoint_txt.getText().isEmpty() || Englishpoint_txt.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Bạn cần nhập đầy đủ thông tin", "Thiếu thông tin", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (MSSV_txt.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(null, "Mã số sinh viên của bạn bị thiếu", "Sai MSSV", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    if (ValidateData.isSubjectPoint(Mathpoint_txt.getText()) && ValidateData.isSubjectPoint(Literaturepoint_txt.getText()) && ValidateData.isSubjectPoint(Englishpoint_txt.getText())) {
+                        String chuoi = "";
+                        chuoi =  Name_txt.getText()+"/"+ MSSV_txt.getText()+"/"+ Mathpoint_txt.getText()+"/"+ Literaturepoint_txt.getText()+"/"+ Englishpoint_txt.getText();
+                        System.out.println("Chuỗi gửi: "+ chuoi);
+                        String Send = chuoi;  //>>/// Thằng này chứa thông tin gửi
+                        sendData = Send.getBytes();
+
+                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
+                        socket.send(sendPacket);
+//                        byte[] buffer = new byte[65507];
+//                        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+//                        socket.receive(receivePacket);
+//                        txtketqua.setText(new String(receivePacket.getData()).trim());
+                        socket.close();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Điểm phải là 1 Số lớn hơn 0 và bé hơn 10", "Nhập sai thông tin", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_Send_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,7 +267,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
     private javax.swing.JTextField MSSV_txt;
     private javax.swing.JTextField Mathpoint_txt;
     private javax.swing.JTextField Name_txt;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Send_btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

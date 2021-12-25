@@ -11,6 +11,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,18 +29,15 @@ public class DbAccess {
     private Statement statement;
     private static final String INSERT_INTO = "Insert Into";
 
-    public DbAccess() {
-        try {
-            DbConnection dbConnection = new DbConnection();
-            connection = dbConnection.GetConnection();
-            statement = connection.createStatement();
-        } catch (Exception e) {
-        }
+    public DbAccess() throws SQLException {
+        DbConnection dbConnection = new DbConnection();
+        connection = dbConnection.GetConnection();
+        statement = connection.createStatement();
     }
 
-    public DbAccess(String Port, String DbName, String username, String password) {
+    public DbAccess(String url) {
         try {
-            DbConnection dbConnection = new DbConnection(Port,DbName,username,password);
+            DbConnection dbConnection = new DbConnection(url);
             connection = dbConnection.GetConnection();
             statement = connection.createStatement();
         } catch (Exception e) {

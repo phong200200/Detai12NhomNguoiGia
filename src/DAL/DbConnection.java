@@ -16,13 +16,9 @@ import javax.swing.JOptionPane;
 public class DbConnection {
 
     private String url;
-    private String Port;
-    private String DbName;
-    private String Username;
-    private String Password;
 
-    public DbConnection(String Port, String DbName, String username, String password){
-        this.url = "jdbc:sqlserver://localhost:" + Port + ";Database=" + DbName + ";user=" + username + ";password=" + password + "";
+    public DbConnection(String url){
+        this.url = url;
     }
 
     public DbConnection() {

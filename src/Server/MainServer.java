@@ -34,114 +34,46 @@ public class MainServer {
 
     public static void main(String[] args) {
         MainServer ms = new MainServer();
-        ms.Recieve();
-        /*String id = "1811063475";
-
-        String Port = "1433";
-        String DbName = "DoAnLTM";
-        String username = "sa";
-        String password = "123";
-
-        DbAccess dbAccess = new DbAccess(Port, DbName, username, password);
-
-        Student student = new Student(id, "Truong Quoc Phong", "5.0", "8.6", "9.0");
-
-        // TODO code application logic here
         try {
-
-            int result = dbAccess.SetMark(student);
-            if (result != 0) {
-                System.out.println("Thanh cong");
-            } else {
-                System.out.println("!!!!Thanh cong");
+            DatagramSocket server = new DatagramSocket(PORT);
+            //
+            System.out.println("Server đã chạy!!! đợi nhận thông tin");
+            String url = ms.Recieve(server);
+            if(url != null){
+                DbAccess dbAccess = new DbAccess(url);
+                ms.Send("Success");
             }
-
-        } catch (Exception ex) {
+            
+            //Receive thông tin tiếp theo từ (Input Infomation Form)
+            //String receive = ms.Recieve(server);
+//
+        } catch (SocketException ex) {
+            ms.Send("Failed");
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Loi~~ input");
         }
-
-        ResultSet rs = dbAccess.GetMark(id);
-        try {
-            while (rs.next()) {
-                try {
-                    String _id = id.substring(2);
-                    System.out.println("ID: " + _id);
-                    String studentid = rs.getString("MSSV");
-                    System.out.println("Sstudentid: " + studentid);
-
-                    String name = rs.getString("HoTen");
-
-                    System.out.println("HoTen: " + name);
-                    System.out.println("Decr: " + Crypto.Decryption(name, _id));
-
-                    String math = rs.getString("DiemToan");
-                    System.out.println("math: " + math);
-                    System.out.println("Decr math: " + Crypto.Decryption(math.trim(), _id));
-
-                    String let = rs.getString("DiemVan");
-                    System.out.println("let: " + let);
-                    System.out.println("Decr let: " + Crypto.Decryption(let.trim(), _id));
-
-                    String eng = rs.getString("DiemAnh");
-                    System.out.println("eng: " + eng);
-                    System.out.println("Decr eng: " + Crypto.Decryption(eng.trim(), _id));
-                } catch (Exception ex) {
-                    Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
-    public void Recieve() {
+    public String Recieve(DatagramSocket server) {
         try {
-            // TODO code application logic here
-//            DatagramSocket server = new DatagramSocket(8888);
-//            System.out.println("Server đã chạy!!! đợi nhận thông tin");
-//            while (true) {
-//                //Giai đoạn 3: trao đổi client và server
-//                //Giai đoạn 3.3: server tạo packet để nhận thông tin từ client( cần 2 tham số: 1 mảng dữ liệu, 2 là chiều dài mảng dữ liêu)
-//                byte nhanson[] = new byte[256];
-//                byte nhansob[] = new byte[256];
-//                DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
-//                server.receive(repacket);
-//
-//                DatagramPacket repacket2 = new DatagramPacket(nhansob, nhanson.length);
-//                server.receive(repacket2);
-//                //Giai đoạn 3.4: xử lý dữ liệu
-//                String str = new String(repacket.getData(), 0, repacket.getLength()).trim();
-//                String str2 = new String(repacket2.getData(), 0, repacket2.getLength()).trim();
-//                System.out.println("str = " + str);
-//                System.out.println("str2 = " + str2);
-//                int n = Integer.parseInt(str);
-//                int base = Integer.parseInt(str2);
-//                String convert = "";
-//                //Giai đoạn 3.5: server tạo packet dùng để gửi (cần 4 tham số: 1 mảng dữ liệu, chiều dài mảng, địa chỉ đích, cổng đích)
-//                byte send[] = new byte[256];
-//                send = convert.getBytes();
-//                InetAddress ip = repacket.getAddress();
-//                int port = repacket.getPort();
-//                DatagramPacket guifi = new DatagramPacket(send, send.length, ip, port);
-//                server.send(guifi);
-            DatagramSocket server = new DatagramSocket(PORT);
-            System.out.println("Server đã chạy!!! đợi nhận thông tin");
-            while (true) {
+            boolean flag = false;
+            while (!flag) {
                 byte nhanson[] = new byte[256];
                 DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
                 server.receive(repacket);
-                String chuoi = new String(repacket.getData(), 0, repacket.getLength()).trim(); // Lấy chuỗi
-                System.out.println("Chuỗi nhận: " + chuoi);
+                String strRecieved = new String(repacket.getData(), 0, repacket.getLength()).trim(); // Lấy chuỗi
+                System.out.println("Chuỗi nhận: " + strRecieved);
+                flag = true;
+                return strRecieved;
             }
         } catch (SocketException ex) {
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         } catch (IOException ex) {
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-
         System.out.println("PORT là: " + PORT);
+        return null;
     }
 
     public void Send(String chuoi) {
@@ -154,6 +86,7 @@ public class MainServer {
             InetAddress ip = InetAddress.getByName(Input_Address_To_UDP_Server.IPAddress);
             DatagramPacket gui = new DatagramPacket(son, lenght, ip, port);
             server.send(gui);
+            System.out.println("Sent: " + gui);
         } catch (Exception e) {
 
         }

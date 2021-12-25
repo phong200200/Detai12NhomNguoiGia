@@ -133,9 +133,6 @@ public class MainServer {
         try {
             String[] hs = new String[6];
             hs = infor.split("/");
-     
-            String Key = hs[1].substring(2);
-            
             Student st = new Student(hs[1],hs[0],hs[2],hs[3],hs[4]);
             return st;
         } catch (Exception ex) {

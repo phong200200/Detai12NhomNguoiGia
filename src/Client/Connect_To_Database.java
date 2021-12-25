@@ -166,7 +166,11 @@ public class Connect_To_Database extends javax.swing.JFrame {
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, UDPport);
                     socket.send(sendPacket);
                     //Nhận từ server
-                    String status = Recieve(socket);
+//                    String status = Recieve(socket);
+                    byte[] buffer = new byte[256];
+                    DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+                    socket.receive(receivePacket);
+                    String status = new String(receivePacket.getData()).trim();
                     if (status.equals("Success")) {
                         Input_Information_Form input_info = new Input_Information_Form();
                         this.dispose();
@@ -186,9 +190,11 @@ public class Connect_To_Database extends javax.swing.JFrame {
 
     private String Recieve(DatagramSocket socket) {
         //TODO: Tấn nhận về hộ t với, địt mẹ nó ngu r
-        
         try {
-            String ketqua = "Success";
+            byte[] buffer = new byte[65507];
+            DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+            socket.receive(receivePacket);
+            String ketqua = new String(receivePacket.getData()).trim();
             return ketqua;
         } catch (Exception e) {
             System.out.println("Hu me roi");

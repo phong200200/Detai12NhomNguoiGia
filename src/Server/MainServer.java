@@ -14,11 +14,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Cursor;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,19 +50,32 @@ public class MainServer {
         try {
             while (true) {
                 byte nhanson[] = new byte[256];
+                //Thằng nhận
                 DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
                 System.out.println("Server đã chạy!!! đợi nhận thông tin");
-                String url = Recieve(repacket, server);
+
+                //Nhận Data r gán vô
+                String url = Receive(repacket, server);
                 if (url != null) {
                     DbAccess dbAccess = new DbAccess(url);
+
+                    //
                     Send("Success", repacket);
                 }
+
+                DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
+                String infor = Receive(repacketInfor, server);
+                Student student = new Student();
+                student = MakeStudent(infor);
+                System.out.println("SV: "+ student.getStudentId());
+                DbAccess dbaccess = new DbAccess(url);
+                int result = dbaccess.SetMark(student);
+                if(result == -1){
+                    Send("Failed!", repacketInfor);
+                }else{
+                    Send("Sucess", repacketInfor);
+                }
             }
-//            DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
-//            String infor = ms.Recieve(repacketInfor,server);
-//            System.out.println("chuoi "+ infor);
-            //Receive thông tin tiếp theo từ (Input Infomation Form)
-            //String receive = ms.Recieve(server);
         } catch (Exception ex) {
 //            ms.Send("Failed",re);
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +87,7 @@ public class MainServer {
         ms.Action();
     }
 
-    public String Recieve(DatagramPacket repacket, DatagramSocket server) {
+    public String Receive(DatagramPacket repacket, DatagramSocket server) {
         try {
             boolean flag = false;
             while (!flag) {
@@ -108,6 +126,21 @@ public class MainServer {
             System.out.println("Sent: " + gui);
         } catch (Exception e) {
 
+        }
+    }
+
+    private Student MakeStudent(String infor) {
+        try {
+            String[] hs = new String[6];
+            hs = infor.split("/");
+     
+            String Key = hs[1].substring(2);
+            
+            Student st = new Student(hs[1],hs[0],hs[2],hs[3],hs[4]);
+            return st;
+        } catch (Exception ex) {
+            Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

@@ -45,19 +45,22 @@ public class MainServer {
         try {
             while (true) {
                 byte nhanson[] = new byte[256];
+                //Thằng nhận
                 DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
                 System.out.println("Server đã chạy!!! đợi nhận thông tin");
-                String url = Recieve(repacket, server);
+
+                //Nhận Data r gán vô
+                String url = Receive(repacket, server);
                 if (url != null) {
                     DbAccess dbAccess = new DbAccess(url);
+
+                    //
                     Send("Success", repacket);
                 }
+
+                DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
+                String infor = Receive(repacketInfor, server);
             }
-//            DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
-//            String infor = ms.Recieve(repacketInfor,server);
-//            System.out.println("chuoi "+ infor);
-            //Receive thông tin tiếp theo từ (Input Infomation Form)
-            //String receive = ms.Recieve(server);
         } catch (Exception ex) {
 //            ms.Send("Failed",re);
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +72,7 @@ public class MainServer {
         ms.Action();
     }
 
-    public String Recieve(DatagramPacket repacket, DatagramSocket server) {
+    public String Receive(DatagramPacket repacket, DatagramSocket server) {
         try {
             boolean flag = false;
             while (!flag) {

@@ -6,9 +6,11 @@ package Client;
 
 import javax.swing.JOptionPane;
 import DAL.DbConnection;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.sql.Connection;
 
 /**
@@ -163,25 +165,37 @@ public class Connect_To_Database extends javax.swing.JFrame {
 
                     DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, UDPport);
                     socket.send(sendPacket);
-                    socket.close();
+                    //Nhận từ server
+                    String status = Recieve(socket);
+                    if (status.equals("Success")) {
+                        Input_Information_Form input_info = new Input_Information_Form();
+                        this.dispose();
+                        input_info.show();
+                    }
                 } catch (Exception e) {
-
+                    System.out.println("Đéo ổn r: " + e);
                 }
-            }
 
-            //Nhận từ server
-            String status = "";
-            if (status.equals("Success")) {
-                Input_Information_Form input_info = new Input_Information_Form();
-                this.dispose();
-                input_info.show();
+                System.out.println("Đc r");
+            } else {
+                System.out.println("Đéo ổn r");
+                JOptionPane.showMessageDialog(null, "Đéo ổn r, thiếu cmj đấy ý", "Đéo ổn r đại vương ơi", JOptionPane.PLAIN_MESSAGE);
             }
-            System.out.println("Đc r");
-        } else {
-            System.out.println("Đéo ổn r");
-            JOptionPane.showMessageDialog(null, "Đéo ổn r, thiếu cmj đấy ý", "Đéo ổn r đại vương ơi", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_Connect_btnActionPerformed
+
+    private String Recieve(DatagramSocket socket) {
+        //TODO: Tấn nhận về hộ t với, địt mẹ nó ngu r
+        
+        try {
+            String ketqua = "Success";
+            return ketqua;
+        } catch (Exception e) {
+            System.out.println("Hu me roi");
+            return null;
+        }
+
+    }
 
     /**
      * @param args the command line arguments
@@ -230,4 +244,5 @@ public class Connect_To_Database extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JButton return_btn;
     // End of variables declaration//GEN-END:variables
+
 }

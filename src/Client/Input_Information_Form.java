@@ -210,6 +210,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
                         sendData = Send.getBytes();
 
                         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
+                        //Todo: Xong r Tấn m nhận cái này ở main luôn dùm t :))
                         socket.send(sendPacket);
 //                        byte[] buffer = new byte[65507];
 //                        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);

@@ -23,10 +23,12 @@ import javax.crypto.NoSuchPaddingException;
  * @author Phong
  */
 public class DbAccess {
+
     private Connection connection;
     private Statement statement;
     private static final String INSERT_INTO = "Insert Into";
-    public DbAccess(){
+
+    public DbAccess() {
         try {
             DbConnection dbConnection = new DbConnection();
             connection = dbConnection.GetConnection();
@@ -34,7 +36,17 @@ public class DbAccess {
         } catch (Exception e) {
         }
     }
-    public ResultSet Query(String input){
+
+    public DbAccess(String Port, String DbName, String username, String password) {
+        try {
+            DbConnection dbConnection = new DbConnection(Port,DbName,username,password);
+            connection = dbConnection.GetConnection();
+            statement = connection.createStatement();
+        } catch (Exception e) {
+        }
+    }
+
+    public ResultSet Query(String input) {
         try {
             ResultSet resultSet = statement.executeQuery(input);
             return resultSet;
@@ -42,14 +54,15 @@ public class DbAccess {
             return null;
         }
     }
-    public int SetMark(Student rawStudent) throws Exception{
+
+    public int SetMark(Student rawStudent) throws Exception {
         Student encryptedStudent = EncryptStudent(rawStudent);
-        String value = "values ('"+ rawStudent.getStudentId()+"'"
-                + ",'"+ encryptedStudent.getStudentName() +"'"
-                + ",'"+ encryptedStudent.getMath() +"'"
-                + ",'"+ encryptedStudent.getLet() +"'"
-                + ",'"+ encryptedStudent.getEng() +"')";
-        String input = INSERT_INTO 
+        String value = "values ('" + rawStudent.getStudentId() + "'"
+                + ",'" + encryptedStudent.getStudentName() + "'"
+                + ",'" + encryptedStudent.getMath() + "'"
+                + ",'" + encryptedStudent.getLet() + "'"
+                + ",'" + encryptedStudent.getEng() + "')";
+        String input = INSERT_INTO
                 + " DiemSV "
                 + value;
         try {
@@ -59,10 +72,10 @@ public class DbAccess {
             return -1;
         }
     }
-    
-    public ResultSet GetMark(String studentId){
+
+    public ResultSet GetMark(String studentId) {
         try {
-            String query = "Select * from DiemSV where MSSV='"+studentId+"'";
+            String query = "Select * from DiemSV where MSSV='" + studentId + "'";
             ResultSet resultSet = statement.executeQuery(query);
             return resultSet;
         } catch (Exception e) {
@@ -70,19 +83,20 @@ public class DbAccess {
         }
     }
 
-    public boolean ValidateStudentId(String id){
+    public boolean ValidateStudentId(String id) {
         try {
-            String query = "Select * from DiemSV where MSSV='"+id+"'";
+            String query = "Select * from DiemSV where MSSV='" + id + "'";
             ResultSet resultSet = statement.executeQuery(query);
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         } catch (Exception e) {
             return false;
         }
     }
+
     private Student EncryptStudent(Student rawStudent) {
         Student student = new Student();
         try {
@@ -99,5 +113,5 @@ public class DbAccess {
         }
         return student;
     }
-    
+
 }

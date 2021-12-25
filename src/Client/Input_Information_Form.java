@@ -8,6 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import javax.swing.JOptionPane;
+import Client.ValidateData;
 
 /**
  *
@@ -172,7 +173,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
             String diachi = this.txtdiachi.getText();
             InetAddress ipServer = InetAddress.getByName(diachi);
             int port = 1234;
-            String Send = this.txtchuoi.getText();  >>/// Thằng này chứa thông tin gửi
+            String Send = this.txtchuoi.getText();  //>>/// Thằng này chứa thông tin gửi
             sendData = Send.getBytes();
 
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
@@ -183,11 +184,46 @@ public class Input_Information_Form extends javax.swing.JFrame {
             socket.receive(receivePacket);
             txtketqua.setText(new String(receivePacket.getData()).trim());
             socket.close();
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.toString());
         }
-        */
+         */
+        byte[] sendData;
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            String diachi = Input_Address_To_UDP_Server.IPAddress;
+            InetAddress ipServer = InetAddress.getByName(diachi);
+            int port = Input_Address_To_UDP_Server.PORT;
+
+            //Validate trước
+            if (Name_txt.getText().isEmpty() || MSSV_txt.getText().isEmpty() || Mathpoint_txt.getText().isEmpty() || Literaturepoint_txt.getText().isEmpty() || Englishpoint_txt.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Bạn cần nhập đầy đủ thông tin", "Thiếu thông tin", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (MSSV_txt.getText().length() != 10) {
+                    JOptionPane.showMessageDialog(null, "Mã số sinh viên của bạn bị thiếu", "Sai MSSV", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    if (ValidateData.isSubjectPoint(Mathpoint_txt.getText()) && ValidateData.isSubjectPoint(Literaturepoint_txt.getText()) && ValidateData.isSubjectPoint(Englishpoint_txt.getText())) {
+                        String chuoi = "";
+                        chuoi =  Name_txt.getText()+"/"+ MSSV_txt.getText()+"/"+ Mathpoint_txt.getText()+"/"+ Literaturepoint_txt.getText()+"/"+ Englishpoint_txt.getText();
+                        System.out.println("Chuỗi gửi: "+ chuoi);
+                        String Send = chuoi;  //>>/// Thằng này chứa thông tin gửi
+                        sendData = Send.getBytes();
+
+                        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
+                        socket.send(sendPacket);
+//                        byte[] buffer = new byte[65507];
+//                        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+//                        socket.receive(receivePacket);
+//                        txtketqua.setText(new String(receivePacket.getData()).trim());
+                        socket.close();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Điểm phải là 1 Số lớn hơn 0 và bé hơn 10", "Nhập sai thông tin", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_Send_btnActionPerformed
 
     /**

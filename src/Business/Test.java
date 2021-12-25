@@ -26,12 +26,12 @@ public class Test {
 
             String hello = "2.46";
 
-            System.out.println("key: " + key.substring(2) );
-            System.out.println("Input: " + hello);
-            encrypted = Crypto.Encryption(hello, key.substring(2));
-            System.out.println("Encrypted: " + encrypted);
-            //Todo: Validate lúc nhập 8 số, bm sẽ cắt nó ra cho :))
-            System.out.println("Decrypted: " +Crypto.Decryption("B6SyqbSJsB8=", key.substring(2)));
+//            System.out.println("key: " + key.substring(2));
+//            System.out.println("Input: " + hello);
+//            encrypted = Crypto.Encryption(hello, key.substring(2));
+//            System.out.println("Encrypted: " + encrypted);
+//            //Todo: Validate lúc nhập 8 số, bm sẽ cắt nó ra cho :))
+//            System.out.println("Decrypted: " +Crypto.Decryption("B6SyqbSJsB8=", key.substring(2)));
             //Todo: Validate lúc nhập 8 số, bm sẽ cắt nó ra cho :))
             if (key.length() == 10) {
                 System.out.println("Thằng Key này đủ r đấy");

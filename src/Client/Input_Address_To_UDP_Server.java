@@ -17,7 +17,7 @@ import Server.MainServer;
 public class Input_Address_To_UDP_Server extends javax.swing.JFrame {
 
     public static int PORT = Server.MainServer.PORT;
-
+    public static String IPAddress = "";
     /**
      * Creates new form Input_Address_To_UDP_Server
      */
@@ -102,7 +102,7 @@ public class Input_Address_To_UDP_Server extends javax.swing.JFrame {
     private void Connect_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Connect_btnActionPerformed
         // TODO add your handling code here:
         try {
-            String diachi = this.Server_Address_txt.getText();
+            IPAddress = this.Server_Address_txt.getText();
             int port = Integer.parseInt(this.Server_Port_txt.getText());
             if (Server_Address_txt.getText().length()>0) {
                 if (port != PORT) {

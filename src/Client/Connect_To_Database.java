@@ -6,6 +6,9 @@ package Client;
 
 import javax.swing.JOptionPane;
 import DAL.DbConnection;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.sql.Connection;
 
 /**
@@ -135,23 +138,45 @@ public class Connect_To_Database extends javax.swing.JFrame {
     private void Connect_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Connect_btnActionPerformed
         // TODO add your handling code here:
         if (DbUserName_txt.getText().length() > 0 && DbPass_txt.getPassword().length > 0) {
-            try {
-                String Dbname = DbName_txt.getText();
-                String port = Port_txt.getText();
-                String username = DbUserName_txt.getText();
-                String password = DbPass_txt.getText();
-                DbConnection dbconn = new DbConnection(port, Dbname, username, password);
-                Connection conn = dbconn.GetConnection();
-                String URL = dbconn.getUrl();
-                if (conn != null) {
-                    Input_Information_Form input_info = new Input_Information_Form();
-                    this.dispose();
-                    input_info.show();
+            String Dbname = DbName_txt.getText();
+            String port = Port_txt.getText();
+            String username = DbUserName_txt.getText();
+            String password = DbPass_txt.getText();
+//            DbConnection dbconn = new DbConnection(port, Dbname, username, password);
+//            Connection conn = dbconn.GetConnection();
+//            String URL = dbconn.getUrl();
+
+            //Gửi lên server
+            if (Client.ValidateData.isPortvalid(port)) {
+                byte[] sendData;
+                try {
+                    DatagramSocket socket = new DatagramSocket();
+                    String diachi = Input_Address_To_UDP_Server.IPAddress;
+                    InetAddress ipServer = InetAddress.getByName(diachi);
+                    int UDPport = Input_Address_To_UDP_Server.PORT;
+
+                    String chuoi = "";
+                    chuoi = "jdbc:sqlserver://localhost:" + port + ";Database=" + Dbname + ";user=" + username + ";password=" + password + "";
+                    System.out.println("Chuoi: " + chuoi);
+                    String Send = chuoi;  //>>/// Thằng này chứa thông tin gửi
+                    sendData = Send.getBytes();
+
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, UDPport);
+                    socket.send(sendPacket);
+                    socket.close();
+                } catch (Exception e) {
+
                 }
-                System.out.println("Đc r");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Không kết nối được server", "Đéo ổn r đại vương ơi", JOptionPane.PLAIN_MESSAGE);
             }
+
+            //Nhận từ server
+            String status = "";
+            if (status.equals("Success")) {
+                Input_Information_Form input_info = new Input_Information_Form();
+                this.dispose();
+                input_info.show();
+            }
+            System.out.println("Đc r");
         } else {
             System.out.println("Đéo ổn r");
             JOptionPane.showMessageDialog(null, "Đéo ổn r, thiếu cmj đấy ý", "Đéo ổn r đại vương ơi", JOptionPane.PLAIN_MESSAGE);

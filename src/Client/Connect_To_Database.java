@@ -186,7 +186,6 @@ public class Connect_To_Database extends javax.swing.JFrame {
 
     private String Recieve(DatagramSocket socket) {
         //TODO: Tấn nhận về hộ t với, địt mẹ nó ngu r
-        
         try {
             String ketqua = "Success";
             return ketqua;

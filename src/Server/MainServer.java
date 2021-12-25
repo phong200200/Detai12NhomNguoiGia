@@ -36,14 +36,19 @@ public class MainServer {
         MainServer ms = new MainServer();
         try {
             DatagramSocket server = new DatagramSocket(PORT);
-            //
+            byte nhanson[] = new byte[256];
+            DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
             System.out.println("Server đã chạy!!! đợi nhận thông tin");
-            String url = ms.Recieve(server);
+            String url = ms.Recieve(repacket);
             if(url != null){
                 DbAccess dbAccess = new DbAccess(url);
                 ms.Send("Success");
             }
             
+            
+            DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
+            String infor = ms.Recieve(repacketInfor);
+            System.out.println("chuoi "+ infor);
             //Receive thông tin tiếp theo từ (Input Infomation Form)
             //String receive = ms.Recieve(server);
 //
@@ -53,12 +58,11 @@ public class MainServer {
         }
     }
 
-    public String Recieve(DatagramSocket server) {
+    public String Recieve(DatagramPacket repacket) {
         try {
             boolean flag = false;
             while (!flag) {
-                byte nhanson[] = new byte[256];
-                DatagramPacket repacket = new DatagramPacket(nhanson, nhanson.length);
+                DatagramSocket server = new DatagramSocket(PORT); 
                 server.receive(repacket);
                 String strRecieved = new String(repacket.getData(), 0, repacket.getLength()).trim(); // Lấy chuỗi
                 System.out.println("Chuỗi nhận: " + strRecieved);

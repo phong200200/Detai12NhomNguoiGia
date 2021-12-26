@@ -204,14 +204,23 @@ public class Input_Information_Form extends javax.swing.JFrame {
                 } else {
                     if (ValidateData.isSubjectPoint(Mathpoint_txt.getText()) && ValidateData.isSubjectPoint(Literaturepoint_txt.getText()) && ValidateData.isSubjectPoint(Englishpoint_txt.getText())) {
                         String chuoi = "";
-                        chuoi =  Name_txt.getText()+"/"+ MSSV_txt.getText()+"/"+ Mathpoint_txt.getText()+"/"+ Literaturepoint_txt.getText()+"/"+ Englishpoint_txt.getText();
-                        System.out.println("Chuỗi gửi: "+ chuoi);
+                        chuoi = Name_txt.getText() + "/" + MSSV_txt.getText() + "/" + Mathpoint_txt.getText() + "/" + Literaturepoint_txt.getText() + "/" + Englishpoint_txt.getText();
+                        System.out.println("Chuỗi gửi: " + chuoi);
                         String Send = chuoi;  //>>/// Thằng này chứa thông tin gửi
                         sendData = Send.getBytes();
 
                         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipServer, port);
                         //Todo: Xong r Tấn m nhận cái này ở main luôn dùm t :))
                         socket.send(sendPacket);
+                        int n = JOptionPane.showConfirmDialog(
+                                this, "Bạn có muốn xem điểm hay không?",
+                                "Xác nhận chuyển Form",
+                                JOptionPane.YES_NO_OPTION);
+                        if (n == JOptionPane.YES_OPTION) {
+                            
+                        } else if (n == JOptionPane.NO_OPTION) {
+                            
+                        }
 //                        byte[] buffer = new byte[65507];
 //                        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
 //                        socket.receive(receivePacket);

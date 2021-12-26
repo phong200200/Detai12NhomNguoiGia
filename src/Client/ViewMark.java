@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,6 +36,20 @@ public class ViewMark extends javax.swing.JFrame {
     private void initComponents() {
 
         btnViewMark = new javax.swing.JButton();
+        txtMssv = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtTenSv = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtDiemToan = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtDiemVan = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtDiemAnh = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtDiemTB = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtketqua = new javax.swing.JTextField();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,21 +60,115 @@ public class ViewMark extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Mssv");
+
+        txtTenSv.setEditable(false);
+
+        jLabel2.setText("Ten Sv");
+
+        txtDiemToan.setEditable(false);
+
+        jLabel3.setText("Diem Toan");
+
+        txtDiemVan.setEditable(false);
+
+        jLabel4.setText("Diem Van");
+
+        txtDiemAnh.setEditable(false);
+
+        jLabel5.setText("Diem Anh");
+
+        txtDiemTB.setEditable(false);
+
+        jLabel6.setText("DTB");
+
+        btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(btnViewMark)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addComponent(txtketqua)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGap(18, 18, 18))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(29, 29, 29)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(29, 29, 29))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(31, 31, 31)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtDiemToan, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                            .addComponent(txtDiemVan, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDiemAnh, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDiemTB, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnViewMark, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtTenSv)
+                    .addComponent(txtMssv, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(244, Short.MAX_VALUE)
-                .addComponent(btnViewMark)
-                .addGap(31, 31, 31))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtMssv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTenSv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDiemToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnViewMark))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDiemVan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(btnExit))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDiemAnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDiemTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtketqua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -67,17 +176,19 @@ public class ViewMark extends javax.swing.JFrame {
 
     private void btnViewMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewMarkActionPerformed
         try {
+            String mssv = txtMssv.getText();
+            
             // TODO add your handling code here:
             DatagramSocket client = new DatagramSocket();
             byte son[] = new byte[256];
-            String s = "1811063475";
-            son = s.getBytes();
+            son = mssv.getBytes();
             int lenght = son.length;
-            InetAddress ip = InetAddress.getByName("localhost");
-            int port = 1221;
-            DatagramPacket guiso = new DatagramPacket(son, lenght, ip, port);
+            String diachi = Input_Address_To_UDP_Server.IPAddress;
+            InetAddress ipServer = InetAddress.getByName(diachi);
+            int port = Input_Address_To_UDP_Server.PORT;;
+            DatagramPacket guiso = new DatagramPacket(son, lenght, ipServer, port);
             client.send(guiso);
-            
+            System.out.println("sent request view");
     
             //giai đoạn 3.6: client khai báo packet để nhận dữ liệu
             byte nhanfi[] = new byte[256];
@@ -86,11 +197,30 @@ public class ViewMark extends javax.swing.JFrame {
             //Giai đoạn 3.7: client hiển thị dữ liệu lên server
             String ketqua = new String(nhansofi.getData(), 0, nhansofi.getLength()).trim();
             System.out.println(" la: " + ketqua);
+            //kq: Truong Quoc Phong/1811063475/7.5333333/5.0/8.6/9.0
+            
+            String[] kqua = ketqua.split("/");
+            txtTenSv.setText(kqua[0]);
+            txtMssv.setText(kqua[1]);
+            txtDiemTB.setText(kqua[2]);
+            txtDiemToan.setText(kqua[3]);
+            txtDiemVan.setText(kqua[4]);
+            txtDiemAnh.setText(kqua[5]);
+            
+            txtketqua.setText(ketqua);
             
         } catch (Exception ex) {
             Logger.getLogger(ViewMark.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_btnViewMarkActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        MainClient mainClient = new MainClient();
+        mainClient.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,6 +258,20 @@ public class ViewMark extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnViewMark;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField txtDiemAnh;
+    private javax.swing.JTextField txtDiemTB;
+    private javax.swing.JTextField txtDiemToan;
+    private javax.swing.JTextField txtDiemVan;
+    private javax.swing.JTextField txtMssv;
+    private javax.swing.JTextField txtTenSv;
+    private javax.swing.JTextField txtketqua;
     // End of variables declaration//GEN-END:variables
 }

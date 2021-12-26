@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Business.AverageMark;
 import Business.Crypto;
 import Business.Student;
 import Client.Input_Address_To_UDP_Server;
@@ -59,21 +60,49 @@ public class MainServer {
                 if (url != null) {
                     DbAccess dbAccess = new DbAccess(url);
 
-                    //
+                    //Connected to db
                     Send("Success", repacket);
-                }
 
-                DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
-                String infor = Receive(repacketInfor, server);
-                Student student = new Student();
-                student = MakeStudent(infor);
-                System.out.println("SV: "+ student.getStudentId());
-                DbAccess dbaccess = new DbAccess(url);
-                int result = dbaccess.SetMark(student);
-                if(result == -1){
-                    Send("Failed!", repacketInfor);
-                }else{
-                    Send("Sucess", repacketInfor);
+                    DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
+                    String infor = Receive(repacketInfor, server);
+                    while (true) {
+                        if (infor.length() > 10) {
+                            Student student = new Student();
+                            student = MakeStudent(infor);
+                            System.out.println("SV: " + student.getStudentId());
+
+                            //added to db
+                            int result = dbAccess.SetMark(student);
+                            if (result == -1) {
+                                System.out.println("Failed");
+                            } else {
+                                System.out.println("Success");
+                            }
+                        } else {
+                            while (true) {
+//                                DatagramPacket repacketRequest = new DatagramPacket(nhanson, nhanson.length);
+//                                String requestId = Receive(repacketRequest, server);
+                                if (infor != null);
+                                {
+                                    ResultSet rs = dbAccess.GetMark(infor);
+                                    Student st = new Student();
+                                    while (rs.next()) {
+                                        st.setStudentId(rs.getString("MSSV").trim());
+                                        String key = st.getStudentId().substring(2);
+                                        st.setStudentName(Crypto.Decryption(rs.getString("HoTen").trim(), key));
+                                        st.setMath(Crypto.Decryption(rs.getString("DiemToan").trim(), key));
+                                        st.setLet(Crypto.Decryption(rs.getString("DiemVan").trim(), key));
+                                        st.setEng(Crypto.Decryption(rs.getString("DiemAnh").trim(), key));
+                                    }
+                                    float avgMark = AverageMark
+                                            .Calculate(Float.valueOf(st.getMath()), Float.valueOf(st.getLet()), Float.valueOf(st.getEng()));
+                                    String str = st.getStudentName() + "/" + st.getStudentId() + "/" + String.valueOf(avgMark) + "/" + st.getMath() + "/" + st.getLet() + "/" + st.getEng();
+                                    Send(str, repacketInfor);
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         } catch (Exception ex) {
@@ -98,14 +127,10 @@ public class MainServer {
                 flag = true;
                 return strRecieved;
             }
-        } catch (SocketException ex) {
-            Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        System.out.println("PORT là: " + PORT);
         return null;
     }
 
@@ -123,7 +148,7 @@ public class MainServer {
             port = packet.getPort();
             DatagramPacket gui = new DatagramPacket(son, lenght, host, port);
             server.send(gui);
-            System.out.println("Sent: " + gui);
+            System.out.println("Sent: " + chuoi);
         } catch (Exception e) {
 
         }
@@ -133,10 +158,7 @@ public class MainServer {
         try {
             String[] hs = new String[6];
             hs = infor.split("/");
-     
-            String Key = hs[1].substring(2);
-            
-            Student st = new Student(hs[1],hs[0],hs[2],hs[3],hs[4]);
+            Student st = new Student(hs[1], hs[0], hs[2], hs[3], hs[4]);
             return st;
         } catch (Exception ex) {
             Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, null, ex);

@@ -44,6 +44,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         Englishpoint_txt = new javax.swing.JTextField();
         Send_btn = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,6 +115,13 @@ public class Input_Information_Form extends javax.swing.JFrame {
             }
         });
 
+        btnExit.setText("Exit");
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,7 +142,9 @@ public class Input_Information_Form extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Send_btn)
-                .addGap(165, 165, 165))
+                .addGap(18, 18, 18)
+                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,9 +159,11 @@ public class Input_Information_Form extends javax.swing.JFrame {
                     .addComponent(MSSV_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Send_btn)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Send_btn)
+                    .addComponent(btnExit))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,7 +237,8 @@ public class Input_Information_Form extends javax.swing.JFrame {
 //                        DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
 //                        socket.receive(receivePacket);
 //                        txtketqua.setText(new String(receivePacket.getData()).trim());
-                        socket.close();
+                        JOptionPane.showMessageDialog(null, "Success");
+                        this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Điểm phải là 1 Số lớn hơn 0 và bé hơn 10", "Nhập sai thông tin", JOptionPane.WARNING_MESSAGE);
                     }
@@ -235,6 +248,13 @@ public class Input_Information_Form extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_Send_btnActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        MainClient mainClient = new MainClient();
+        mainClient.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,6 +298,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
     private javax.swing.JTextField Mathpoint_txt;
     private javax.swing.JTextField Name_txt;
     private javax.swing.JButton Send_btn;
+    private javax.swing.JButton btnExit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

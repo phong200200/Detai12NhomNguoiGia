@@ -28,6 +28,7 @@ public class DbAccess {
     private Connection connection;
     private Statement statement;
     private static final String INSERT_INTO = "Insert Into";
+    private static final String UPDATE = "UPDATE DiemSV SET ";
 
     public DbAccess() throws SQLException {
         DbConnection dbConnection = new DbConnection();
@@ -60,10 +61,18 @@ public class DbAccess {
                 + ",'" + encryptedStudent.getMath() + "'"
                 + ",'" + encryptedStudent.getLet() + "'"
                 + ",'" + encryptedStudent.getEng() + "')";
+        String str = "HoTen = '" + encryptedStudent.getStudentName() + "'"
+                + ",DiemToan= '" + encryptedStudent.getMath() + "'"
+                + ",DiemVan='" + encryptedStudent.getLet() + "'"
+                + ",DiemAnh='" + encryptedStudent.getEng() + "' WHERE MSSV = " + rawStudent.getStudentId()+";";
+        String update = UPDATE + str;
         String input = INSERT_INTO
                 + " DiemSV "
                 + value;
         try {
+            if (!ValidateStudentId(rawStudent.getStudentId())) {
+                int i = statement.executeUpdate(update);
+            }
             int i = statement.executeUpdate(input);
             return i;
         } catch (Exception e) {

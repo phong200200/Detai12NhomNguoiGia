@@ -86,27 +86,25 @@ public class MainClient extends javax.swing.JFrame {
 
     private void menuXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuXemActionPerformed
         // TODO add your handling code here:
-        
-            
+
+
     }//GEN-LAST:event_menuXemActionPerformed
 
     private void menuNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNhapActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_menuNhapActionPerformed
 
     private void menuXemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuXemMouseClicked
         // TODO add your handling code here:
         ViewMark xem = new ViewMark();
-        this.dispose();
+        this.setVisible(false);
         xem.setVisible(true);
     }//GEN-LAST:event_menuXemMouseClicked
 
     private void menuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuNhapMouseClicked
         // TODO add your handling code here:
-        
         Input_Information_Form nhap = new Input_Information_Form();
-        this.dispose();
+        this.setVisible(false);
         nhap.setVisible(true);
     }//GEN-LAST:event_menuNhapMouseClicked
 

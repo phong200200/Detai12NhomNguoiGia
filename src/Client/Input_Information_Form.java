@@ -140,11 +140,11 @@ public class Input_Information_Form extends javax.swing.JFrame {
                             .addComponent(MSSV_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(29, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(95, 95, 95)
                 .addComponent(Send_btn)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addGap(84, 84, 84))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,7 +229,9 @@ public class Input_Information_Form extends javax.swing.JFrame {
                                 "Xác nhận chuyển Form",
                                 JOptionPane.YES_NO_OPTION);
                         if (n == JOptionPane.YES_OPTION) {
-                            
+                            ViewMark vm = new ViewMark();
+                            this.setVisible(false);
+                            vm.setVisible(true);
                         } else if (n == JOptionPane.NO_OPTION) {
                             
                         }
@@ -238,7 +240,7 @@ public class Input_Information_Form extends javax.swing.JFrame {
 //                        socket.receive(receivePacket);
 //                        txtketqua.setText(new String(receivePacket.getData()).trim());
                         JOptionPane.showMessageDialog(null, "Success");
-                        this.dispose();
+//                        this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, "Điểm phải là 1 Số lớn hơn 0 và bé hơn 10", "Nhập sai thông tin", JOptionPane.WARNING_MESSAGE);
                     }

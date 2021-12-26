@@ -62,11 +62,12 @@ public class MainServer {
 
                     //Connected to db
                     Send("Success", repacket);
-
-                    DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
-                    String infor = Receive(repacketInfor, server);
                     while (true) {
+                        boolean flag = false;
+                        DatagramPacket repacketInfor = new DatagramPacket(nhanson, nhanson.length);
+                        String infor = Receive(repacketInfor, server);
                         if (infor.length() > 10) {
+                            String[] Chuoinhan = infor.split("/");
                             Student student = new Student();
                             student = MakeStudent(infor);
                             System.out.println("SV: " + student.getStudentId());
@@ -79,9 +80,7 @@ public class MainServer {
                                 System.out.println("Success");
                             }
                         } else {
-                            while (true) {
-//                                DatagramPacket repacketRequest = new DatagramPacket(nhanson, nhanson.length);
-//                                String requestId = Receive(repacketRequest, server);
+                            while (!flag) {
                                 if (infor != null);
                                 {
                                     ResultSet rs = dbAccess.GetMark(infor);
@@ -98,6 +97,7 @@ public class MainServer {
                                             .Calculate(Float.valueOf(st.getMath()), Float.valueOf(st.getLet()), Float.valueOf(st.getEng()));
                                     String str = st.getStudentName() + "/" + st.getStudentId() + "/" + String.valueOf(avgMark) + "/" + st.getMath() + "/" + st.getLet() + "/" + st.getEng();
                                     Send(str, repacketInfor);
+                                    flag = true;
                                 }
                             }
                         }
@@ -136,19 +136,24 @@ public class MainServer {
 
     public void Send(String chuoi, DatagramPacket packet) {
         try {
-            DatagramSocket server = new DatagramSocket();
+            boolean flag = false;
+            while (!flag) {
+                DatagramSocket server = new DatagramSocket();
 //            int port = PORT;
-            byte son[] = new byte[256];
-            son = String.valueOf(chuoi).getBytes();
-            int lenght = son.length;
-            InetAddress host = null;
+                byte son[] = new byte[256];
+                son = String.valueOf(chuoi).getBytes();
+                int lenght = son.length;
+                InetAddress host = null;
 //            InetAddress host = InetAddress.getByName(Input_Address_To_UDP_Server.IPAddress);
-            int port;
-            host = packet.getAddress();
-            port = packet.getPort();
-            DatagramPacket gui = new DatagramPacket(son, lenght, host, port);
-            server.send(gui);
-            System.out.println("Sent: " + chuoi);
+                int port;
+                host = packet.getAddress();
+                port = packet.getPort();
+                DatagramPacket gui = new DatagramPacket(son, lenght, host, port);
+                server.send(gui);
+                flag = true;
+                server.close();
+                System.out.println("Sent: " + chuoi);
+            }
         } catch (Exception e) {
 
         }

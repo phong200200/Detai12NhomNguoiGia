@@ -172,9 +172,9 @@ public class Connect_To_Database extends javax.swing.JFrame {
                     socket.receive(receivePacket);
                     String status = new String(receivePacket.getData()).trim();
                     if (status.equals("Success")) {
-                        Input_Information_Form input_info = new Input_Information_Form();
+                        MainClient mainClient = new MainClient();
                         this.dispose();
-                        input_info.show();
+                        mainClient.setVisible(true);
                     }
                 } catch (Exception e) {
                     System.out.println("Đéo ổn r: " + e);

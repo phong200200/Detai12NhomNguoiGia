@@ -93,9 +93,6 @@ public class ViewMark extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(txtketqua)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,12 +127,16 @@ public class ViewMark extends javax.swing.JFrame {
                             .addComponent(txtDiemAnh, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDiemTB, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnViewMark, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnExit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+                            .addComponent(btnViewMark, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(txtTenSv)
                     .addComponent(txtMssv, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(39, 39, 39))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtketqua)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +189,7 @@ public class ViewMark extends javax.swing.JFrame {
             int port = Input_Address_To_UDP_Server.PORT;;
             DatagramPacket guiso = new DatagramPacket(son, lenght, ipServer, port);
             client.send(guiso);
-            System.out.println("sent request view");
+            System.out.println("sent request view: " + mssv);
     
             //giai đoạn 3.6: client khai báo packet để nhận dữ liệu
             byte nhanfi[] = new byte[256];
@@ -196,6 +197,7 @@ public class ViewMark extends javax.swing.JFrame {
             client.receive(nhansofi);
             //Giai đoạn 3.7: client hiển thị dữ liệu lên server
             String ketqua = new String(nhansofi.getData(), 0, nhansofi.getLength()).trim();
+            client.close();
             System.out.println(" la: " + ketqua);
             //kq: Truong Quoc Phong/1811063475/7.5333333/5.0/8.6/9.0
             
